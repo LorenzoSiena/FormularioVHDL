@@ -113,7 +113,7 @@ end beh;
 
 ```
 # FLIP-FLOP DATA (FFD) con RESET
-
+L'entrata diventa l'uscita nella salita del clock
 ![FFD](FFDRES.png)
 
 ```vhdl
@@ -126,9 +126,9 @@ ARCHITECTURE behavioral OF ffd IS
 BEGIN
 	PROCESS(CLK,RST)
 	BEGIN
-		IF RST=‘1’ THEN q <= ‘0’ ;
-		ELSIF clk=‘0’ AND clk’EVENT
-		THEN q<= d AFTER 2ns;
+		IF RST=‘1’ THEN q <= ‘0’ ;  -- SE PREMO RESET -> USCITA 0
+		ELSIF clk=‘0’ AND clk’EVENT -- SE IL CLOCK PASSA DA 0 A 1
+		THEN q<= d AFTER 2ns; 	    -- DOPO 2 NANOSEC DATA-> USCITA
 		END IF;
 	END PROCESS;
 END behavioral;
