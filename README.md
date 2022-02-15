@@ -87,7 +87,36 @@ END CASE;
 ```
 # while (⚠️) ➿
 
+```vhdl
+PROCESS(a,b)
+VARIABLE ind: integer;
+VARIABLE uguale: std_logic;
+BEGIN
+ind:=0; uguale:='1';
+WHILE (uguale='1' AND ind<=7) LOOP
+IF a(ind) /= b(ind) THEN uguale := '0';
+END IF;
+ind := ind +1;
+END LOOP;
+ris <= uguale;
+END PROCESS;
+```
+
 # for (⚠️) ➿
+```vhdl
+
+PROCESS(a)
+VARIABLE conta : integer range 0 to 8;
+BEGIN
+conta := 0;
+FOR i IN 0 to 7 LOOP
+IF a(i) = ‘1’ THEN conta := conta +1;
+END IF;
+END LOOP;
+b <= conta;
+END PROCESS;
+
+```
 
 # DECODER 2x4
 Seleziono un uscita q(0,1,2,3) attraverso un entrata binaria i(00,01,10,11) 
