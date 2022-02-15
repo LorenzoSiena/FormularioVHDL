@@ -30,7 +30,7 @@ begin
 end beh;
 ```
 
-# Process :warning: 
+# Process  
 Funzione che si attiva quando uno dei segnali della sensitivity list (a,b,c) cambia [EVENTO!]
 
 
@@ -62,7 +62,7 @@ Per questo uso e dichiaro dentro il process delle variabili locali che cambiano 
 ```vhdl
 variable t: std_logic        -- Dichiaro la variabile ausiliaria t
 ```
-# IF->THEN ELSIF->THEN ELSE->THEN ENDIF
+# IF->THEN ELSIF->THEN ELSE->THEN ENDIF ( (N-1?) MULTIPLEXER IN CASCATA)
 ```vhdl
 process (a,b,c,s)
 
@@ -74,7 +74,20 @@ end if;
 
 end process;
 ```
+# CASE (MULTIPLEXER N ENTRATE)
 
+```vhdl
+CASE espressione IS
+	WHEN valore => istruz;
+	WHEN valore2a | valore2b => istruz;
+	WHEN valore3 to valoreN  => istruz;
+	WHEN valore4 => istruz;
+	WHEN OTHERS => istruz; -- default case
+END CASE;
+```
+# while (⚠️) ➿
+
+# for (⚠️) ➿
 
 # DECODER 2x4
 Seleziono un uscita q(0,1,2,3) attraverso un entrata binaria i(00,01,10,11) 
@@ -133,7 +146,7 @@ BEGIN
 	END PROCESS;
 END behavioral;
 ```
-# ALU (ADD,SUB,AND,OR)
+# ALU (ADD,SUB,AND,OR) [IF]
 ```vhdl
 entity alu is
 	port (
@@ -153,15 +166,34 @@ begin
 		end if;
 	end process;
 end seq;
+```
 
+# ALU (ADD,SUB,AND,OR) [CASE]
 
+```vhdl
+entity alu is
+port ( 
+	a, b: in std_logic_vector( 3 downto 0);
+	op: in integer range 0 to 3;
+	ris: out std_logic_vector( 3 downto 0));
+end alu;
 
+architecture seq of alu is
+begin
+	process(a,b,op)
+	begin
+		case op is
+		when 0 => ris <= a and b;
+		when 1 => ris <= a or b;
+		when 2 => ris <= a + b;
+		when others=> ris <= a - b;
+		end case;
+	end process;
+end seq;
 ```
 
 
-
-
-# TESTBENCH ESEMPIO (:warning:)
+# TESTBENCH ESEMPIO (⚠️)
 
 ```vhdl
 library ieee;
