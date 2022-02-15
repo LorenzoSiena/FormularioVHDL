@@ -31,9 +31,50 @@ end beh;
 ```
 
 # Process :warning: 
+Funzione che si attiva quando uno dei segnali della sensitivity list (a,b,c) cambia [EVENTO!]
+
+
 ```vhdl
- 
+ENTITY andor IS
+Port ( a,b,c: IN std_logic; -- SENSITIVITY LIST
+       a2, o2: OUT std_logic);
+END andor;
+ARCHITECTURE seq OF andOR IS
+-- SEGNALI E VARIABILI
+BEGIN
+	PROCESS(a, b,c)		 -- [a2 ,o2]-> NON CAMBIANO!
+		BEGIN		 -- [a2 ,o2]-> NON CAMBIANO!
+		a2 <= a AND b;	 -- [a2 ,o2]-> NON CAMBIANO!
+		o2<= a OR c;	 -- [a2 ,o2]-> NON CAMBIANO!
+	END PROCESS;             -- [a2 ,o2]-> CAMBIANO ADESSO!
+END seq;
 ```
+
+### Update Segnali
+Le assegnazioni dei segnali avvengono DOPO il process quindi alla fine dell'intera funzione
+```vhdl
+signal t: std_logic;           -- Dichiaro il segnale ausiliario t
+```
+
+### Update Variabili
+Per questo uso e dichiaro dentro il process delle variabili locali che cambiano immediatamente valore.
+
+```vhdl
+variable t: std_logic        -- Dichiaro la variabile ausiliaria t
+```
+# IF->THEN ELSIF->THEN ELSE->THEN ENDIF
+```vhdl
+process (a,b,c,s)
+
+begin
+if (s = '1') then q<= a;
+elsif (s = '0') then q<= b;
+else q <= b;
+end if;
+
+end process;
+```
+
 
 # DECODER 2x4
 Seleziono un uscita q(0,1,2,3) attraverso un entrata binaria i(00,01,10,11) 
@@ -71,7 +112,27 @@ q <= "1000" when en ='1' AND i= "00" else
 end beh;
 
 ```
+# FLIP-FLOP DATA (FFD) con RESET
 
+![FFD](FFDRES.png)
+
+```vhdl
+ENTITY ffd IS
+PORT ( rst,d, clk: IN std_logic;
+	q: OUT std_logic );
+END ffd;
+
+ARCHITECTURE behavioral OF ffd IS
+BEGIN
+	PROCESS(CLK,RST)
+	BEGIN
+		IF RST=‘1’ THEN q <= ‘0’ ;
+		ELSIF clk=‘0’ AND clk’EVENT
+		THEN q<= d AFTER 2ns;
+		END IF;
+	END PROCESS;
+END behavioral;
+```
 
 # TESTBENCH ESEMPIO (:warning:)
 
