@@ -220,7 +220,43 @@ begin
 	end process;
 end seq;
 ```
+# Definizione nuovo tipo ❎
+```vhdl
+-- Enumerato
+TYPE nome IS definizione;
 
+TYPE quattrovalori IS ('0', '1', 'X','Z');
+TYPE std_ulogic IS ('U','X','0','1','Z','W','L','H','-');
+TYPE istruzioni IS (add, sub, lw, sw, mov, beq);
+TYPE Stato IS (Fetch, Decode, Execute, MemAccess, WriteBack);
+
+--Array
+TYPE Nome_array IS ARRAY ( range_indici) OF Tipo_base;
+
+TYPE data_bus IS array( 0 to 31) OF BIT;
+TYPE byte IS ARRAY(7 downto 0) OF std_logic;
+TYPE word IS ARRAY(15 downto 0) OF std_logic;
+
+```
+# Assegnamento di array ❎
+```vhdl
+
+ARCHITECTURE Behavioral OF test IS
+SIGNAL x,y: word;
+SIGNAL b,c: byte;
+SIGNAL d,e: std_logic;
+BEGIN
+y <= "1010101010101010"; --assegnazione di un vettore
+e <= '1’; -- assegnazione di un bit
+d<= w(i); -- un solo elemento
+b<=y(7 downto 0); -- un parte di un vettore (da 7 a 0)
+x <=b&c; -- concatenazione tra due byte
+-- alternativa
+-- x(15 downto 8) <= b;
+-- x(7 downto 0) <= c;
+END Behavioral;
+
+```
 
 # TESTBENCH ESEMPIO (⚠️)
 
