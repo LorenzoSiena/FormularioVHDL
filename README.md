@@ -133,7 +133,7 @@ BEGIN
 	END PROCESS;
 END behavioral;
 ```
-# ALU (+,-,AND,OR)
+# ALU (ADD,SUB,AND,OR)
 ```vhdl
 entity alu is
 	port (
