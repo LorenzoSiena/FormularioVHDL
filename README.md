@@ -133,6 +133,33 @@ BEGIN
 	END PROCESS;
 END behavioral;
 ```
+# ALU (+,-,AND,OR)
+```vhdl
+entity alu is
+	port (
+	a,b: in std_logic_vector(3 downto 0);
+	op: in integer rango 0 to 3;
+	ris: out std_logic_vector(3 downto 0));
+end alu;
+
+architecture seq of alu is
+begin
+	process(a,b,op)
+	begin
+		if op = 0    then ris <= a and b;
+		elsif op = 1 then ris <= a or b;
+		elsif op = 2 then ris <= a+b;
+		else ris <= a-b;
+		end if;
+	end process;
+end seq;
+
+
+
+```
+
+
+
 
 # TESTBENCH ESEMPIO (:warning:)
 
