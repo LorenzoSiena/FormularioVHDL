@@ -29,6 +29,22 @@ begin
 
 end beh;
 ```
+# 2 Attributi Predefiniti utili 🌟
+
+```vhdl
+
+-- in
+wait until Clk = ‘1’ and Clk’event and Clk’last_value = ‘0’;
+
+-- abbiamo
+
+clk'event 	--CLOCK è appena cambiato
+
+-- e
+
+clk'last_value  --ultimo valore di CLOCK
+
+```
 
 # Process  
 Funzione che si attiva quando uno dei segnali della sensitivity list (a,b,c) cambia [EVENTO!]
