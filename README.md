@@ -32,6 +32,8 @@ end beh;
 
 # Process  
 Funzione che si attiva quando uno dei segnali della sensitivity list (a,b,c) cambia [EVENTO!]
+[Funziona come un Do-While]
+[Do a prescindere di a ,b ,c]->[aspetta una variazione]
 
 
 ```vhdl
@@ -46,14 +48,14 @@ BEGIN
 		BEGIN		 -- [a2 ,o2]-> NON CAMBIANO!
 		a2 <= a AND b;	 -- [a2 ,o2]-> NON CAMBIANO!
 		o2<= a OR c;	 -- [a2 ,o2]-> NON CAMBIANO!
-	END PROCESS;             -- [a2 ,o2]-> CAMBIANO ADESSO!
+	END PROCESS;             -- [a2 ,o2]-> CAMBIANO ADESSO CONTEMPORANEAMENTE !
 END seq;
 ```
 
 ### Update Segnali
 Le assegnazioni dei segnali avvengono DOPO il process quindi alla fine dell'intera funzione
 ```vhdl
-signal t: std_logic;           -- Dichiaro il segnale ausiliario t
+signal t: std_logic;           -- Dichiaro il segnale ausiliario t (Per comunicazione tra più process)
 ```
 
 ### Update Variabili
