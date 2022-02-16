@@ -276,7 +276,7 @@ END Behavioral;
 
 ```
 # Esempio FSM
-## SEMAFORO 🚦
+## SEMAFORO CU (CONTROL UNIT) 🚦
 ```vhdl
 library ieee;
 use ieee.std_logic_1164.all;
@@ -300,22 +300,22 @@ begin
    if clk='0' and clk'event then -- fronte di salita
 	case st is -- parte il case 	
 
-	   -- Primo stato dal rosso
+	   -- Primo stato dal rosso 🔴
 	   when rosso => if start= '1' then st <= giallo_verde;
 			 else st <= rosso;
 			 end if;
 	   
-	   -- Secondo stato GIALLOCORTO
+	   -- Secondo stato GIALLOCORTO 🟡
 	   when giallo_verde => if cond = '0' then st <= verde;
 			        else st <= giallo_verde;
 		                end if;
 	   
-	   -- Terzo stato VERDE
+	   -- Terzo stato VERDE 🟢
            when verde => if cond = '0'   then st <= giallo_rosso;
 		         else st <= verde;
 		         end if;
-           
-	   -- Quarto stato GIALLOLUNGO
+            
+	   -- Quarto stato GIALLOLUNGO 🟡
 	   when giallo_rosso => if cond = '0' then st <= rosso;
 				else st <= giallo_rosso;
 			        end if;
@@ -324,11 +324,24 @@ begin
    end if; 
 end process;
 
+
+
+-- GENERAZIONE SEGNALI DI CONTROLLO (TABELLA)
+
+w_conta <= '0' when st = rosso else '1'; -- w conta vale 0 solo quando siamo sul rosso
+selSoglia <= '1' when st = verde else '0'; -- selSogla p 1 solo quanso siamo sul verde
+
+-- USCITE (TABELLA)
+
+red <= '1' when st = rosso else '0' ; 			            -- Lampadina rossa ON  🔴
+yellow <= '1' when st = giallo_rosso or st = giallo_verde else '0'; -- Lampadina gialla ON 🟡 
+green <= '1' when st = verde else '0';                              -- Lampadina verde ON  🟢
+
+
 end beh;
 ```
 
 # TESTBENCH ESEMPIO (⚠️)
-
 ```vhdl
 library ieee;
 use ieee.std_logic_1164.all;
