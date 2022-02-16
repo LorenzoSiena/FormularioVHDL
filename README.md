@@ -275,6 +275,57 @@ x <=b&c; -- concatenazione tra due byte
 END Behavioral;
 
 ```
+# Esempio FSM
+## SEMAFORO 🚦
+```vhdl
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity semaforo_cu is
+port (
+start,clk,cond: in std_logic;	-- ingressi
+red,yellow,green: out std_logic; -- stati_uscita
+w_conta,selSoglia: out std_logic -- segnali interni
+);
+end semaforo_cu;
+
+architecture beh of semaforo_cu is
+
+type stato is (rosso,giallo_verde,verde,giallo_rosso); -- uso tipo enumerato per i 4 stati invece di 00,01,10,11
+signal st: stato; -- STATO CORRENTE (segnale ausiliare)
+begin
+--MACCHINA_STATI_FINITI
+process(clk)
+begin
+   if clk='0' and clk'event then -- fronte di salita
+	case st is -- parte il case 	
+
+	   -- Primo stato dal rosso
+	   when rosso => if start= '1' then st <= giallo_verde;
+			 else st <= rosso;
+			 end if;
+	   
+	   -- Secondo stato GIALLOCORTO
+	   when giallo_verde => if cond = '0' then st <= verde;
+			        else st <= giallo_verde;
+		                end if;
+	   
+	   -- Terzo stato VERDE
+           when verde => if cond = '0'   then st <= giallo_rosso;
+		         else st <= verde;
+		         end if;
+           
+	   -- Quarto stato GIALLOLUNGO
+	   when giallo_rosso => if cond = '0' then st <= rosso;
+				else st <= giallo_rosso;
+			        end if;
+
+	end case;
+   end if; 
+end process;
+
+end beh;
+```
 
 # TESTBENCH ESEMPIO (⚠️)
 
