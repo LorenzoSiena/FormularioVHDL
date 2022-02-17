@@ -340,28 +340,72 @@ green <= '1' when st = verde else '0';                              -- Lampadina
 
 end beh;
 ```
+# Semaforo Datapath
+```vhdl
+👷
+```
+
+# Semaforo completo
+```vhdl
+👷
+```
 
 # TESTBENCH ESEMPIO (⚠️)
 ```vhdl
+👷
+```
+# Generic ControlUnit
+```vhdl
+
+
 library ieee;
 use ieee.std_logic_1164.all;
-entity tb is
-end tb;
-architecture ttb of tb is
-component decoder2x4 is
-port ( i: in std_logic_vector(1 downto 0);
-en: in std_logic;
-q: out std_logic_vector( 0 to 3)
-);
-end component;
-signal i: std_logic_vector(1 downto 0);
-signal en: std_logic;
-signal q: std_logic_vector( 0 to 3);
 
-begin
-dut: decoder2x4 port map (i,en,q);
-en <= '0' after 0 ns, '1' after 10 ns;
-i <= "00" after 0 ns, "01" after 20 ns, "10" after 30
-ns, "11" after 40 ns;
-end ttb;
+entity XXX_cu is 
+port(
+clk, start,input1,input2: in std_logic;
+out1,out2,out3,out4,outN : out std_logic
+);
+end XXX_cu;
+
+architecture beh of XXX_cu is
+
+type stato is (S0,S1,S2,S3,Sn);
+signal st : stato;
+
+begin 
+	process(clk)
+	begin 
+
+	if clk'event and clk ='0' then -- per la salita del clock
+		case st is
+			when S0 => if start ='1' then st <= s1 ;
+						else st<= S0;
+			
+			when S1 => if input1 ='1' then st <= s2 ;
+						else st<= S1;
+
+
+
+
+		end case;
+	end process;
+end beh;
+
 ```
+
+# Generic DataPath
+```vhdl
+👷
+```
+# Generic Complete
+```vhdl
+👷
+```
+# Generic TestBench
+
+```vhdl
+👷
+```
+
+
