@@ -363,32 +363,34 @@ use ieee.std_logic_1164.all;
 
 entity XXX_cu is 
 port(
-clk, start,input1,input2: in std_logic;
-out1,out2,out3,out4,outN : out std_logic
+clk, start,input1,input2: in std_logic; -- Segnali ingresso
+out1,out2,out3,out4,outN : out std_logic --Segnali uscita
 );
 end XXX_cu;
 
 architecture beh of XXX_cu is
 
-type stato is (S0,S1,S2,S3,Sn);
-signal st : stato;
+type stato is (S0,S1,S2,S3,Sn); -- stati della macchina
+signal st : stato;		-- segnale del case
 
 begin 
 	process(clk)
 	begin 
 
-	if clk'event and clk ='0' then -- per la salita del clock
+	  if clk'event and clk ='0' then -- per la salita del clock
 		case st is
 			when S0 => if start ='1' then st <= s1 ;
 						else st<= S0;
-			
+				   end if;
 			when S1 => if input1 ='1' then st <= s2 ;
 						else st<= S1;
-
-
-
-
+				   end if;
+			-- senza condizioni(salto immediato)
+			when Sn => st <=S1;  
+			-- whentuttoilresto
+			
 		end case;
+	  end if;
 	end process;
 end beh;
 
