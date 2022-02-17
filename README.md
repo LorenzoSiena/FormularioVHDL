@@ -379,11 +379,12 @@ begin
 
 	  if clk'event and clk ='0' then -- per la salita del clock
 		case st is
-			when S0 => if start ='1' then st <= s1 ;
+			when S0 => if start ='1' then st <= S1 ;
 						else st<= S0;
 				   end if;
-			when S1 => if input1 ='1' then st <= s2 ;
-						else st<= S1;
+			when S1 => if input1 ='1' and input2 ='1'  then st <= S2 ;
+				      elsif input1 ='1' and input2 ='0' then st <= Sn; 
+				      else st<= S1;
 				   end if;
 			-- senza condizioni(salto immediato)
 			when Sn => st <=S1;  
@@ -392,6 +393,19 @@ begin
 		end case;
 	  end if;
 	end process;
+
+-- TABELLA
+out1 <= '0' when st= S0 or st = S1 else '1';
+ 
+out2 <= '0' when st = S1 or st = Sn else '1':
+
+out3 <= '1' when st = S2 or st= S3 else '0';
+
+outN <= '1' when st = Sn else '0';
+
+-- Fine tabella
+
+		
 end beh;
 
 ```
