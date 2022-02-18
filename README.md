@@ -22,7 +22,6 @@ End NOME_ENTITA;
 Architecture beh of NOME_ENTITA is 
 -- SEZIONE DICHIARATIVA
 
-
 begin
 
 -- SEZIONE ESECUTIVA
@@ -412,7 +411,59 @@ end beh;
 
 # Generic DataPath
 ```vhdl
-👷
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+entity XXX_dp is
+port(
+	clk,WA_ENABLE,WB_ENABLE,WR_ENABLE,selettoreA,selettoreb: in std_logic;
+	A,B: in std_logic_vector(7 downto 0); -- VETTORE DI INGRESSO A 8 bit  [ B= IngressoB, A=IngressoA ] 
+	selA,selB: out std_logic;  --SELETTORI A e B [selA=condizione1, selB=condizione2] 
+	ris : out std_logic_vector(7 downto 0) -- VETTORE DI USCITA A 8 bit
+);
+
+end XXX_dp;
+
+architecture beh of XXX_dp is
+signal ma,mb :std_logic_vector(7 downto 0); --VETTORE DI 8 bit (REGISTRI INTERNI ) [ma= REGISTRO ,mb = REGISTRO]
+begin
+-- condizioni scritte / selettori 	[selA=condizione1, selB=condizione2] 
+selA <= '1' when mb /= ma else '0';  
+selB <= '1' when mb < ma else '0';	
+-----------------------------
+
+process(clk)
+begin
+
+	if clk='0' and clk'event then   -- FRONTE DI DISCESA
+	
+		if WA_ENABLE = '1' then     -- SE IL REGISTRO (A) E' ABILITATO
+			if condizione1 = '0' then ma <= A; -- SE IL SELETTORE IMPOSTA COPIA DI A
+			else	ma<= ma + A;	-- SE IL SELETTORE IMPOSTA SOMMA DI A
+			end if;
+		end if;
+
+
+		if WB_ENABLE = '1' then     -- SE IL REGISTRO (B) E' ABILITATO
+			if condizione2 = '0' then mb <= B; -- SE IL SELETTORE IMPOSTA COPIA DI B
+			else mb<= mb +B;     -- SE IL SELETTORE IMPOSTA SOMMA DI B
+			end if;
+		end if;
+
+		if WR_ENABLE = '1' then ris <= mb; -- SE IL REGISTRO E' ABILITATO
+		end if;
+
+	end if;
+
+
+end process;
+
+
+end beh;
+
+
+
 ```
 # Generic Complete
 ```vhdl
