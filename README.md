@@ -363,6 +363,7 @@ use ieee.std_logic_1164.all;
 entity XXX_cu is 
 port(
 clk, start,input1,input2: in std_logic; -- Segnali ingresso
+xy : in std_logic_vector(1 downto 0); --Segnale ("00","01","11","10")
 out1,out2,out3,out4,outN : out std_logic --Segnali uscita
 );
 end XXX_cu;
