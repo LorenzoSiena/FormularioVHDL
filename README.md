@@ -429,7 +429,7 @@ end XXX_dp;
 architecture beh of XXX_dp is
 signal ma,mb :std_logic_vector(7 downto 0); --VETTORE DI 8 bit (REGISTRI INTERNI ) [ma= REGISTRO ,mb = REGISTRO]
 begin
--- condizioni scritte / selettori 	[selA=condizione1, selB=condizione2] 
+-- Multiplexer 	[selA=condizione1, selB=condizione2] 
 selA <= '1' when mb /= ma else '0';  
 selB <= '1' when mb < ma else '0';	
 -----------------------------
