@@ -1,3 +1,118 @@
+# Generic ControlUnit
+```vhdl
+
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity XXX_cu is 
+port(
+clk, start,input1,input2: in std_logic; -- Segnali ingresso
+xy : in std_logic_vector(1 downto 0); --Segnale ("00","01","11","10")
+out1,out2,out3,out4,outN : out std_logic --Segnali uscita
+);
+end XXX_cu;
+
+architecture beh of XXX_cu is
+
+type stato is (S0,S1,S2,S3,Sn); -- stati della macchina
+signal st : stato;		-- segnale del case
+
+begin 
+	-- MACCHINA A STATI--
+	process(clk)
+	begin 
+
+	  if clk'event and clk ='0' then -- per la salita del clock
+		case st is
+			when S0 => if start ='1' then st <= S1 ;
+						else st<= S0;
+				   end if;
+			when S1 => if input1 ='1' and input2 ='1'  then st <= S2 ;
+				      elsif input1 ='1' and input2 ='0' then st <= Sn; 
+				      else st<= S1;
+				   end if;
+			-- senza condizioni(salto immediato)
+			when Sn => st <=S1;  
+			
+		end case;
+	  end if;
+	end process;
+	--------------------
+-- TABELLA
+out1 <= '1' when st= S0 or st = S1 else '0';
+ 
+out2 <= '0' when (st = S1 and input1 = '1 ') or st = Sn else '1':
+
+out3 <= '1' when st = S2 or st= S3 else '0';
+
+outN <= '1' when st = Sn else '0';
+
+-- Fine tabella
+
+		
+end beh;
+
+```
+
+# Generic DataPath
+```vhdl
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+entity XXX_dp is
+port(
+	clk,WA_ENABLE,WB_ENABLE,WR_ENABLE,selettoreA,selettoreb: in std_logic;
+	A,B: in std_logic_vector(7 downto 0); -- VETTORE DI INGRESSO A 8 bit  [ B= IngressoB, A=IngressoA ] 
+	selA,selB: out std_logic;  --SELETTORI A e B [selA=condizione1, selB=condizione2] 
+	ris : out std_logic_vector(7 downto 0) -- VETTORE DI USCITA A 8 bit
+);
+
+end XXX_dp;
+
+architecture beh of XXX_dp is
+signal ma,mb :std_logic_vector(7 downto 0); --VETTORE DI 8 bit (REGISTRI INTERNI ) [ma= REGISTRO ,mb = REGISTRO]
+begin
+-- Multiplexer 	[selA=condizione1, selB=condizione2] 
+selA <= '1' when mb /= ma else '0';  
+selB <= '1' when mb < ma else '0';	
+-----------------------------
+
+process(clk)
+begin
+
+	if clk='0' and clk'event then   -- FRONTE DI DISCESA
+	
+		if WA_ENABLE = '1' then     -- SE IL REGISTRO (A) E' ABILITATO
+			if condizione1 = '0' then ma <= A; -- SE IL SELETTORE IMPOSTA COPIA DI A
+			else	ma<= ma + A;	-- SE IL SELETTORE IMPOSTA SOMMA DI A
+			end if;
+		end if;
+
+
+		if WB_ENABLE = '1' then     -- SE IL REGISTRO (B) E' ABILITATO
+			if condizione2 = '0' then mb <= B; -- SE IL SELETTORE IMPOSTA COPIA DI B
+			else mb<= mb +B;     -- SE IL SELETTORE IMPOSTA SOMMA DI B
+			end if;
+		end if;
+
+		if WR_ENABLE = '1' then ris <= mb; -- SE IL REGISTRO E' ABILITATO
+		end if;
+
+	end if;
+
+
+end process;
+
+
+end beh;
+
+
+
+```
+
+
 # Librerie 
 ```vhdl
 --Questo è un commento
@@ -353,119 +468,7 @@ end beh;
 ```vhdl
 👷
 ```
-# Generic ControlUnit
-```vhdl
 
-
-library ieee;
-use ieee.std_logic_1164.all;
-
-entity XXX_cu is 
-port(
-clk, start,input1,input2: in std_logic; -- Segnali ingresso
-xy : in std_logic_vector(1 downto 0); --Segnale ("00","01","11","10")
-out1,out2,out3,out4,outN : out std_logic --Segnali uscita
-);
-end XXX_cu;
-
-architecture beh of XXX_cu is
-
-type stato is (S0,S1,S2,S3,Sn); -- stati della macchina
-signal st : stato;		-- segnale del case
-
-begin 
-	process(clk)
-	begin 
-
-	  if clk'event and clk ='0' then -- per la salita del clock
-		case st is
-			when S0 => if start ='1' then st <= S1 ;
-						else st<= S0;
-				   end if;
-			when S1 => if input1 ='1' and input2 ='1'  then st <= S2 ;
-				      elsif input1 ='1' and input2 ='0' then st <= Sn; 
-				      else st<= S1;
-				   end if;
-			-- senza condizioni(salto immediato)
-			when Sn => st <=S1;  
-			-- whentuttoilresto
-			
-		end case;
-	  end if;
-	end process;
-
--- TABELLA
-out1 <= '0' when st= S0 or st = S1 else '1';
- 
-out2 <= '0' when st = S1 or st = Sn else '1':
-
-out3 <= '1' when st = S2 or st= S3 else '0';
-
-outN <= '1' when st = Sn else '0';
-
--- Fine tabella
-
-		
-end beh;
-
-```
-
-# Generic DataPath
-```vhdl
-
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.std_logic_unsigned.all;
-entity XXX_dp is
-port(
-	clk,WA_ENABLE,WB_ENABLE,WR_ENABLE,selettoreA,selettoreb: in std_logic;
-	A,B: in std_logic_vector(7 downto 0); -- VETTORE DI INGRESSO A 8 bit  [ B= IngressoB, A=IngressoA ] 
-	selA,selB: out std_logic;  --SELETTORI A e B [selA=condizione1, selB=condizione2] 
-	ris : out std_logic_vector(7 downto 0) -- VETTORE DI USCITA A 8 bit
-);
-
-end XXX_dp;
-
-architecture beh of XXX_dp is
-signal ma,mb :std_logic_vector(7 downto 0); --VETTORE DI 8 bit (REGISTRI INTERNI ) [ma= REGISTRO ,mb = REGISTRO]
-begin
--- Multiplexer 	[selA=condizione1, selB=condizione2] 
-selA <= '1' when mb /= ma else '0';  
-selB <= '1' when mb < ma else '0';	
------------------------------
-
-process(clk)
-begin
-
-	if clk='0' and clk'event then   -- FRONTE DI DISCESA
-	
-		if WA_ENABLE = '1' then     -- SE IL REGISTRO (A) E' ABILITATO
-			if condizione1 = '0' then ma <= A; -- SE IL SELETTORE IMPOSTA COPIA DI A
-			else	ma<= ma + A;	-- SE IL SELETTORE IMPOSTA SOMMA DI A
-			end if;
-		end if;
-
-
-		if WB_ENABLE = '1' then     -- SE IL REGISTRO (B) E' ABILITATO
-			if condizione2 = '0' then mb <= B; -- SE IL SELETTORE IMPOSTA COPIA DI B
-			else mb<= mb +B;     -- SE IL SELETTORE IMPOSTA SOMMA DI B
-			end if;
-		end if;
-
-		if WR_ENABLE = '1' then ris <= mb; -- SE IL REGISTRO E' ABILITATO
-		end if;
-
-	end if;
-
-
-end process;
-
-
-end beh;
-
-
-
-```
 # Generic Complete
 ```vhdl
 👷
