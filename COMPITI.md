@@ -11,16 +11,77 @@ BRO
 BRO
 
 ```
-## 24/02/2022 T1
+## 24/02/2022 T1 (DATAPATH)
 ![c_24022022](c_24022022.jpeg)
 ```vhdl
-BRO
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+Entity DPath is
+	Port( 
+		Din: in std_logic_vector(7 downto 0);
+		OP: in std_logic;
+		clk,WeA,WeR: in std_logic;
+		R: out std_logic_vector(7 downto 0)
+);
+End DPath;
+Architecture beh of DPath is
+signal regA, Ris: std_logic_vector(7 downto 0);
+begin
+
+    Ris <= RegA + Din when OP = '0' else
+		   RegA or Din;
+		   
+	process(clk)
+	begin
+	if clk = '0' and clk' event then
+		if WeA = '1' then
+			regA <= Din;
+		end if;
+		
+		if WeR = '1' then
+			R<= Ris;
+		end if;
+	end if;
+	end process;
+end beh;
 
 ```
-## 24/02/2022 T2
+## 24/02/2022 T2 (DATAPATH)
 ![c_24022022BIS](c_24022022BIS.jpeg)
 ```vhdl
-BRO
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all; 
+
+Entity DPath is
+Port( Din: in std_logic_vector(15 downto 0);
+clk,WeA,WeB, WeR: in std_logic;
+R: out std_logic_vector(15 downto 0)
+);
+End DPath;
+Architecture beh of DPath is 
+signal A,B: std_logic_vector (15 downto 0);
+begin
+	process(clk)
+	begin
+			if clk='0' and clk'event then
+				if WeA='1' then 
+					A<=Din;
+				end if;
+				if WeB='1' then 
+					B<=Din;
+				end if;
+				if WeR='1' then
+					if Din<A then
+						R<=A+B;
+					else R<=Din+B;
+					end if;
+				end if;
+			end if;
+	end process;
+end beh;
 
 ```
 ## 31/01/2022 (CONTROL UNIT/DIAGRAMMA A STATI)
