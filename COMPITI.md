@@ -162,45 +162,12 @@ BRO
 BRO
 
 ```
-## 26/01/2021 T1 ???
+## 26/01/2021 T1 
 ![26022021.png](26022021.png)
 ```vhdl
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.std_logic_signed.all; 
-
-entity DPath is
-Port(Din: in std_logic_vector(15 downto 0);
-	 OP: in std_logic_vector(1 downto 0);
-	 clk,WA, WR: in std_logic;
-	 Ris: out std_logic_vector(15 downto 0)
-);
-end DPath; 
-
-architecture beh of DPath is
-
-signal RegA: std_logic_vector(15 downto 0);
-begin 
-	process(clk)
-	begin		
-		if clk'event and clk = '0' then
-			if WA = '1' then RegA <= Din;
-			end if;
-			if WR = '1' then 
-				case OP is
-					when "00" => Ris <= RegA and Din;
-					when "01" => Ris <= RegA or Din;
-					when "10" => Ris <= RegA - Din;
-					when "11" => Ris <= RegA + Din;
-					when others => null;
-				end case;
-			end if;
-		end if;
-	end process;
-end beh;
-
+???
 ```
-## 26/01/2021 T2 ???
+## 26/01/2021 T2
 ![26022021bis.png](26022021bis.png)
 ```vhdl
 library ieee;
