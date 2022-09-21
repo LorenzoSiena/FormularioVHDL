@@ -1,8 +1,49 @@
 # Compiti svolti
 ## 28/06/2022
 ![c_28062022](c_2806222.jpeg)
+![28062022_SCHEMA](28062022_SCHEMA.jpeg)
 ```vhdl
-BRO
+library ieee;
+use ieee.std_logic_1164.all;
+
+Entity CU is
+	port(
+	clk,start,op,ready: in std_logic;
+	stato:out integer range 0 to 3
+	);
+end CU;
+
+architecture beh of CU is
+
+signal st: integer range 0 to 3;
+
+begin
+	
+	stato<=st;
+	
+	process(clk)
+	
+	begin
+		if clk='0' and clk'EVENT then
+			case st is
+				when 0=> --idle
+				if start='0' then st<=0;
+					else st<=1;
+					end if;
+				when 1=> --read
+					if ready ='0' then st<=1;
+					else st<=2;
+					end if;
+				when 2=> --exe1 --vai in idle
+					if op ='0' then st<=0
+					end if;
+				
+				when others=> --exe2 --perde un ciclo e va in idle
+					st<=0;
+			end case;
+		end if;	
+	end process;
+end beh;
 
 ```
 ## 14/03/2022
