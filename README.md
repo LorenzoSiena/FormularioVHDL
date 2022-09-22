@@ -113,6 +113,11 @@ end beh;
 
 ```
 
+# Dichiarare Variabili
+![stdlogic](https://user-images.githubusercontent.com/74120782/191800722-98363788-8206-4656-8aa6-c8bf07678f24.jpeg)
+
+# Dichiarare Vettori
+![std_logic_vector](https://user-images.githubusercontent.com/74120782/191800757-00013a49-2bc6-477b-8173-e925d779a6e8.jpeg)
 
 # Librerie 
 ```vhdl
@@ -123,6 +128,8 @@ use ieee.std_logic_1164.all;
 
 # ENTITY
 Interfaccia con le porte (IN,OUT,INOUT,BUFFER)
+
+
 ```vhdl
 Entity NOME_ENTITA is 
 Port(	ck,start: in std_logic;
