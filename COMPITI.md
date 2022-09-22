@@ -53,7 +53,8 @@ BRO
 
 ```
 ## 24/02/2022 T1 (DATAPATH)
-![c_24022022](c_24022022.jpeg)
+![c_24022022](c_24022022PLUS.jpeg)
+![ORandOP](ORandOP.jpeg)
 ```vhdl
 library ieee;
 use ieee.std_logic_1164.all;
