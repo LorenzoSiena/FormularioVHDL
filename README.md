@@ -484,5 +484,10 @@ BRO
 ```vhdl
 👷
 ```
+## SELECTOR
+[selector](https://user-images.githubusercontent.com/74120782/191799933-a95fb436-ac4f-4455-b587-27ef07fd1257.jpeg)
+## SWITCH!
+![switch](https://user-images.githubusercontent.com/74120782/191799993-b682e8e3-ff6c-4b03-b1fa-173b0aa4a8e9.jpeg)
+
 
 
