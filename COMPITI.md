@@ -206,7 +206,7 @@ BRO
 BRO
 
 ```
-## 26/01/2021 T1 
+## 26/01/2021 T1 (TABELLA)[CU]
 ![26022021.png](26022021.png)
 ```vhdl
 library ieee;
@@ -227,7 +227,7 @@ Architecture beh of CU is
 end beh;
 
 ```
-## 26/01/2021 T2
+## 26/01/2021 T2 (DATAPATH)
 ![26022021bis.png](26022021bis.png)
 ```vhdl
 library ieee;
