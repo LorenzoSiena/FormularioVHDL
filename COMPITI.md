@@ -49,7 +49,25 @@ end beh;
 ## 14/03/2022
 ![c_14032022](c_14032022.jpeg)
 ```vhdl
-BRO
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity cu is
+port(
+	stato: in std_logic_vector(2 downto 0);
+	sel,wen,exe,ready:out std_logic
+);
+end cu;
+
+architecture beh of cu is
+begin
+
+	sel<='1' when stato ='100' or stato ='101' else '0';
+	wen<='1' when stato ='010' or stato ='110' else '0';
+	exe<='1' when stato ='100' or stato ='110' else '0';
+	ready<='1' when stato ='000' else '0';
+
+end beh;
 
 ```
 ## 24/02/2022 T1 (DATAPATH)
@@ -185,7 +203,25 @@ BRO
 ## 15/07/2021
 ![c_15072021.jpeg](c_15072021.jpeg)
 ```vhdl
-BRO
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity cu is
+port(
+	stato: in std_logic_vector(2 downto 0);
+	sel,w,exe1,exe2:out std_logic
+);
+end cu;
+
+architecture beh of cu is
+begin
+
+	sel<='1' when stato ='001' or stato ='011' or stato ='110' else '0';
+	w<='1' when stato ='101' or stato ='111' else '0';
+	exe1<='1' when stato ='100'  else '0';
+	exe1<='1' when stato ='011'  else '0';
+	
+end beh;
 
 ```
 ## 23/06/2021
@@ -203,7 +239,26 @@ BRO
 ## 18/2/2021
 ![c_18022021.jpeg](c_18022021.jpeg)
 ```vhdl
-BRO
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity cu is
+port(
+	stato: in std_logic_vector(1 downto 0);
+	en,cond:in std_logic;
+	sel,w,exe1,exe2:out std_logic
+);
+end cu;
+
+architecture beh of cu is
+begin
+
+	sel<='1' when en ='1' and (stato ='10' or stato ='01') else '0';
+	w<='1' when stato ='10'  else '0';
+	exe1<='1' when stato ='11' and cond ='0' else '0';
+	exe2<='1' when stato ='11'  else '0';
+	
+end beh;
 
 ```
 ## 26/01/2021 T1 (TABELLA)[CU]
