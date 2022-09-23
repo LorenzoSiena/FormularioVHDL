@@ -1,3 +1,122 @@
+# Template Noti
+
+## Tabella (CU)
+ ```vhdl
+ 
+ library ieee;
+use ieee.std_logic_1164.all;
+
+entity cu is
+port(
+	stato: in std_logic_vector(1 downto 0);
+	en,cond:in std_logic;
+	sel,w,exe1,exe2:out std_logic
+);
+end cu;
+
+architecture beh of cu is
+begin
+
+	sel<='1' when stato ='00' or (en='1' and cond='0') else '0';
+	w<='1' when ??? else '0';
+	exe1<='1' when ??? else '0';
+	exe2<='1' when ??? else '0';
+	
+end beh;
+ 
+ 
+ 
+ ```
+## Macchina a stati (CU)
+```vhdl
+library ieee;
+use ieee.std_logic_1164.all;
+
+Entity CU is
+	port(
+	clk,start,op,ready: in std_logic;
+	stato:out integer range 0 to 3
+	);
+end CU;
+
+architecture beh of CU is
+
+signal st: integer range 0 to 3; --SEGNALE ST
+
+begin
+	
+	stato<=st;               -- STATO<=SEGNALE
+	
+	process(clk)
+	
+	begin
+		if clk='0' and clk'EVENT then -- QUANDO SALE IL CLOCK
+		
+			case st is  --case degli stati
+			
+			
+				when 0=> --idle (STATO 1 INIZIALE)
+				if start='0' then st<=0;
+					else st<=1; -- VAI IN QUESTO STATO
+					end if;
+				when 1=> --read (STATO 2)
+					if ready ='0' then st<=1; --VAI IN QUESTO STATO
+					else st<=2; --VAI IN QUESTO STATO
+					end if;
+				when 2=> --exe1 (STATO 3)
+					if op ='0' then st<=0 --VAI IN QUESTO STATO
+					end if;
+				
+				when others=> --(STATO 4)
+					st<=0; --VAI NELLO STATO INIZIALE
+			end case;
+		end if;	
+	end process;
+end beh;
+ 
+ 
+ ```
+## Datapath (DP)
+```vhdl
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+Entity DPath is
+	Port( 
+		Din: in std_logic_vector(7 downto 0);  --DATA INGRESSO
+		OP: in std_logic;			--OPERAZIONE 1 o 0
+		clk,WeA,WeR: in std_logic;           --CLOCK + ENABLER REG_ACCUMULATORE E REG_USCITA
+		R: out std_logic_vector(7 downto 0)  --DATA USCITA
+);
+End DPath;
+Architecture beh of DPath is
+
+signal regA, Ris: std_logic_vector(7 downto 0);  -- SEGNALE -> REG_ACCUMULATORE e REG_USCITA
+
+begin
+
+    Ris <= RegA + Din when OP = '0' else  -- ASSEGNO  (signal)REG_USCITA <=(signal)REG_ACCUMULATORE (+) (in)DataIN 
+		   RegA or Din;		  -- OPPURE 			   (signal)REG_ACCUMULATORE OR (in)DataIN 
+		   
+	process(clk)
+	begin
+	if clk = '0' and clk' event then
+		if WeA = '1' then
+			regA <= Din; -- (signal)REG_ACCUMULATORE <=  (in)DataIN 
+		end if;
+		
+		if WeR = '1' then
+			R<= Ris;    -- (in)DATA USCITA <=  (signal)REG_USCITA 
+		end if;
+	end if;
+	end process;
+end beh;
+
+
+
+
+ ```
 # Compiti svolti
 ## 28/06/2022
 ![c_28062022](c_2806222.jpeg)
