@@ -120,8 +120,9 @@ end beh;
 # Compiti svolti
 
 ## 06/09/2022 
-![2022_09_06_SCHEMA](photo1666099761.jpeg)
 ![2022_09_06](2022_09_06.png)
+
+![2022_09_06_SCHEMA](photo1666099761.jpeg)
 ```vhdl
 library ieee;
 use ieee.std_logic_1164.all;
