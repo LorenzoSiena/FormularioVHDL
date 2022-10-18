@@ -118,9 +118,97 @@ end beh;
 
  ```
 # Compiti svolti
+
+## 06/09/2022 
+![2022_09_06](2022_09_06.png)
+```vhdl
+library ieee;
+use ieee.std_logic_1164.all;
+
+
+entity CU is
+port(stato: in std_logic_vector(1 downto 0);
+    cond: in std_logic;
+    sel,wen,exe,ready:out std_logic
+); 
+end CU;
+
+architecture beh of CU is
+
+begin
+
+	sel<='1' when cond ='0' and (stato ='10' or stato '11') else '0';
+	
+	wen<='1' when cond ='0' and (stato='01' or stato='11') else '0';
+	
+	exe<='1' when  cond ='0' and (stato ='10' or stato '11')   else '0';
+	
+	ready<='1' when  stato ='00' and cond ='0' else '0';
+
+
+end beh;
+
+
+
+```
+
+## 06/09/2022_BIS
+![28062022_SCHEMA](2022_09_06_BIS.png)
+```vhdl
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity CU is 
+port (
+clk,start:in std_logic;
+op:in std_logic;
+stato:out integer range 0 to 3
+);
+end CU;
+
+architecture beh of cu is
+
+---SIGNAL STATE
+signal st: integer range 0 to 3;
+
+begin 
+
+	stato<=st;
+	
+	process(clk)
+	begin
+		if clk='0' and clk'EVENT then
+		
+			case st is
+			
+				when 0=>
+				if start='1' then st<=1;
+				else st<=0;
+				end if;
+				
+				when 1=>
+				if op='1' then st<=2;
+				else st<=3;
+				end if;
+				
+				when others =>
+					st<=0;
+		
+			end case;
+		 end if;
+	end process;
+end beh;
+```
+
+
+
+
+
+
+
 ## 28/06/2022
 ![c_28062022](c_2806222.jpeg)
-![28062022_SCHEMA](28062022_SCHEMA.jpeg)
+![2022_09_06_BIS](28062022_SCHEMA.jpeg)
 ```vhdl
 library ieee;
 use ieee.std_logic_1164.all;
